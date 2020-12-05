@@ -1,0 +1,59 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 200Mb
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://xxx.xxx.xxx.xxx:3306/xxxx?useUnicode=true&characterEncoding=UTF-8&useSSL=false&rewriteBatchedStatements=true
+    username: root
+    password: xxxx
+    platform: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5  #初始化连接池大小
+      min-idle: 5      #连接池最小连接数
+      max-active: 20   #连接池最大连接数
+      max-wait: 60000  #配置获取连接等待超时的时间
+      time-between-eviction-runs-millis: 60000   #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 3000       #配置一个连接在池中最小生存的时间，单位是毫秒
+      validation-query: select 1
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      pool-prepared-statements: true   #打开PSCache，并且指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      filter: #配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        stat:
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            multi-statement-allow: true
+            none-base-statement-allow: true
+  devtools: #热部署，
+    restart:
+      enabled: true
+
+  redis:
+    host: xxx.xxx.xxx.xxx
+    port: 6379
+    password: xxxx
+    database: 0
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.xxxx.web.entity    #实体扫描，多个package用逗号或者分号分隔
+  global-config:
+    id-type: 1           #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    field-strategy: 2    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    db-column-underline: true  #驼峰下划线转换
+    refresh-mapper: true  #刷新mapper 调试神器
+  configuration:
+    map-underscore-to-camel-case: true  #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    cache-enabled: false
+
+logging:
+  level:
+    com.xxxx.web.mapper: debug
